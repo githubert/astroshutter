@@ -93,7 +93,7 @@ def main():
             if dither:
                 do_dither(guider)
 
-            print("Next exposure in %ds." % (pause))
+            print(f"Next exposure in {pause:d}s.")
             time.sleep(pause)
 
     if guider is not None:
