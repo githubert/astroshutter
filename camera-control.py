@@ -78,14 +78,14 @@ def main():
 
             ser.write(b'c')
 
+            if count == -1:
+                print(f"Exposure {current_exposure} done.")
+            else:
+                print(f"Exposure {current_exposure} of {count} done.")
+
             if count != -1 and current_exposure >= count:
                 print("All exposures done. Exiting.")
                 break
-            else:
-                if count == -1:
-                    print(f"Exposure {current_exposure} done.")
-                else:
-                    print(f"Exposure {current_exposure} of {count} done.")
 
             if interrupted:
                 print("Exiting.")
