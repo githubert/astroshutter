@@ -13,7 +13,7 @@ Options:
     -p --pause=<pause>              Pause between exposures in seconds [default: 5].
     -d --dither                     Use dithering [default: False].
     --phd2-host=<phd2-host>         PHD2 host name [default: localhost].
-    --serial-port=<serialport>      Serial port [default: /dev/ttyUSB0].
+    --serial-port=<serial-port>      Serial port [default: /dev/ttyUSB0].
 """
 
 import serial
