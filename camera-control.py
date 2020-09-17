@@ -64,6 +64,9 @@ def main():
         guider.Connect()
 
     with serial.Serial(serial_port, 9600, timeout=1) as ser:
+        # Wait magical two seconds for the serial interface to settle
+        time.sleep(2)
+
         while True:
             current_exposure += 1
             ser.write(b'r')
