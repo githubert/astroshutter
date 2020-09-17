@@ -39,7 +39,7 @@ def main():
             (exposure, pause, "not " if dither == False else ""))
 
     interrupted = False
-    guider = False
+    guider = None
 
     def handle_sigint(sig, frame):
         nonlocal interrupted
@@ -48,7 +48,7 @@ def main():
         if interrupted:
             print("Aborting immediately.")
 
-            if guider != False:
+            if guider != None:
                 guider.Disconnect()
 
             sys.exit()
@@ -104,7 +104,7 @@ def main():
             print("Next exposure in %ds." % (pause))
             time.sleep(pause)
 
-    if guider != False:
+    if guider != None:
         guider.Disconnect()
 
 main()
