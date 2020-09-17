@@ -1,7 +1,7 @@
 """Capture and control exposures.
 
 Usage:
-    camera-control [--exposure=<exposure>] [--count=<count>] [--pause=<pause>] [--dither=<dither>]
+    camera-control [--exposure=<exposure>] [--count=<count>] [--pause=<pause>] [--dither]
                    [--phd2-host=<phd2-host>] [--serial-port=<serial-port>]
     camera-control --help
 
@@ -11,7 +11,7 @@ Options:
     -e --exposure=<exposure>        Exposure length in seconds [default: 300].
     -n --count=<count>              Number of exposures to make [default: -1].
     -p --pause=<pause>              Pause between exposures in seconds [default: 5].
-    -d --dither=<dither>            Use dithering [default: False].
+    -d --dither                     Use dithering [default: False].
     --phd2-host=<phd2-host>         PHD2 host name [default: localhost].
     --serial-port=<serialport>      Serial port [default: /dev/ttyUSB0].
 """
@@ -31,7 +31,7 @@ def main():
     exposure = int(arguments['--exposure'])
     count = int(arguments['--count'])
     pause = int(arguments['--pause'])
-    dither = arguments['--dither'] == 'True'
+    dither = arguments['--dither']
 
     current_exposure = 0
 
