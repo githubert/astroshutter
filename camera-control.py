@@ -23,6 +23,7 @@ import sys
 from docopt import docopt
 from guider import Guider
 
+
 def main():
     arguments = docopt(__doc__)
 
@@ -36,7 +37,7 @@ def main():
     current_exposure = 0
 
     print("Looping with %ds exposure, %ds pause, %susing dithering." %
-            (exposure, pause, "not " if dither == False else ""))
+          (exposure, pause, "not " if dither == False else ""))
 
     interrupted = False
     guider = None
@@ -55,7 +56,6 @@ def main():
 
         print("Abort requested after current exposure.")
         interrupted = True
-
 
     signal.signal(signal.SIGINT, handle_sigint)
 
@@ -111,5 +111,6 @@ def main():
 
     if guider != None:
         guider.Disconnect()
+
 
 main()
