@@ -43,6 +43,9 @@ def main():
     guider = None
 
     def handle_sigint(sig, frame):
+        """
+        Allow the script to quit gracefully. Hit Ctrl-C twice in order to exit immediately.
+        """
         nonlocal interrupted
         nonlocal guider
 
@@ -59,6 +62,7 @@ def main():
 
     signal.signal(signal.SIGINT, handle_sigint)
 
+    # Initialize PHD2 connection only when dithering is in use
     if dither:
         guider = Guider(phd2_host)
         guider.Connect()
@@ -71,14 +75,7 @@ def main():
 
         while True:
             current_exposure += 1
-            ser.write(b'r')
-
-            print("", end='\r')
-            for i in range(exposure, 0, -1):
-                print(f"\x1b[2K{i}s left.", end='\r')
-                time.sleep(1)
-
-            ser.write(b'c')
+            do_exposure(exposure, ser)
 
             if count == -1:
                 print(f"Exposure {current_exposure} done.")
@@ -94,23 +91,46 @@ def main():
                 break
 
             if dither:
-                print("Dithering", end='')
-                guider.Dither(1.0, 2.0, 10.0, 30.0)
-
-                while True:
-                    if guider.CheckSettling().Done:
-                        print()
-                        break
-                    else:
-                        print('.', end='', flush=True)
-
-                    time.sleep(1)
+                do_dither(guider)
 
             print("Next exposure in %ds." % (pause))
             time.sleep(pause)
 
     if guider is not None:
         guider.Disconnect()
+
+
+def do_exposure(exposure, ser):
+    """
+    Perform one exposure.
+
+    :param exposure: Exposure time in seconds.
+    :param ser: Serial interface to use for controlling the remote shutter.
+    """
+    ser.write(b'r')
+    print("", end='\r')
+    for i in range(exposure, 0, -1):
+        print(f"\x1b[2K{i}s left.", end='\r')
+        time.sleep(1)
+    ser.write(b'c')
+
+
+def do_dither(guider):
+    """
+    Instruct PHD2 to dither, waiting a moment for to settle before being ready for the next exposure.
+
+    :param guider: Connection to PHD2 to use.
+    """
+    print("Dithering", end='')
+    guider.Dither(1.0, 2.0, 10.0, 30.0)
+    while True:
+        if guider.CheckSettling().Done:
+            print()
+            break
+        else:
+            print('.', end='', flush=True)
+
+        time.sleep(1)
 
 
 main()
