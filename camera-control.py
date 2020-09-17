@@ -49,7 +49,7 @@ def main():
         if interrupted:
             print("Aborting immediately.")
 
-            if guider != None:
+            if guider is not None:
                 guider.Disconnect()
 
             sys.exit()
@@ -109,7 +109,7 @@ def main():
             print("Next exposure in %ds." % (pause))
             time.sleep(pause)
 
-    if guider != None:
+    if guider is not None:
         guider.Disconnect()
 
 
