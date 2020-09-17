@@ -37,7 +37,7 @@ def main():
     current_exposure = 0
 
     print("Looping with %ds exposure, %ds pause, %susing dithering." %
-          (exposure, pause, "not " if dither == False else ""))
+          (exposure, pause, "" if dither else "not "))
 
     interrupted = False
     guider = None
