@@ -65,7 +65,9 @@ def main():
 
     with serial.Serial(serial_port, 9600, timeout=1) as ser:
         # Wait magical two seconds for the serial interface to settle
+        print("Waiting for serial interface.")
         time.sleep(2)
+        print("Begin first exposure.")
 
         while True:
             current_exposure += 1
