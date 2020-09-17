@@ -27,12 +27,12 @@ from guider import Guider
 def main():
     arguments = docopt(__doc__)
 
-    phd2_host = arguments['--phd2-host']
-    serial_port = arguments['--serial-port']
-    exposure = int(arguments['--exposure'])
-    count = int(arguments['--count'])
-    pause = int(arguments['--pause'])
-    dither = arguments['--dither']
+    phd2_host: str = arguments['--phd2-host']
+    serial_port: str = arguments['--serial-port']
+    exposure: int = int(arguments['--exposure'])
+    count: int = int(arguments['--count'])
+    pause: int = int(arguments['--pause'])
+    dither: bool = arguments['--dither']
 
     current_exposure = 0
 
