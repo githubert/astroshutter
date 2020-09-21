@@ -24,6 +24,9 @@ import sys
 from docopt import docopt
 from guider import Guider
 
+TERM_RED = '\033[91m'
+TERM_RESET = '\033[0m'
+TERM_UNDERLINE = '\033[4m'
 
 def main():
     arguments = docopt(__doc__)
@@ -87,12 +90,12 @@ def main():
 
             if dark_every != 0 and (current_exposure % dark_every) == 0:
                 dark = True
-                input("Dark frame requested, please put on cap and press enter to continue.")
+                input(f"{TERM_RED}Dark frame requested, please put on cap and {TERM_UNDERLINE}press enter to continue{TERM_RESET}.")
 
             do_exposure(exposure, ser)
 
             if dark:
-                input("Dark frame done, please remove cap and press enter to continue.")
+                input(f"{TERM_RED}Dark frame done, please remove cap and {TERM_UNDERLINE}press enter to continue{TERM_RESET}.")
                 dark = False
 
             if count == -1:
