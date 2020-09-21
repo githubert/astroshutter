@@ -2,7 +2,7 @@
 
 Usage:
     camera-control [--exposure=<exposure>] [--count=<count>] [--pause=<pause>] [--dither]
-                   [--phd2-host=<phd2-host>] [--serial-port=<serial-port>]
+                   [--phd2-host=<phd2-host>] [--serial-port=<serial-port>] [--dark-every=<exposures>]
     camera-control --help
 
 
@@ -12,6 +12,7 @@ Options:
     -n --count=<count>              Number of exposures to make [default: -1].
     -p --pause=<pause>              Pause between exposures in seconds [default: 5].
     -d --dither                     Use dithering [default: False].
+    --dark-every=<exposures>        Interactively ask for creating a dark every n exposures [default: 0].
     --phd2-host=<phd2-host>         PHD2 host name [default: localhost].
     --serial-port=<serial-port>      Serial port [default: /dev/ttyUSB0].
 """
@@ -33,8 +34,10 @@ def main():
     count: int = int(arguments['--count'])
     pause: int = int(arguments['--pause'])
     dither: bool = arguments['--dither']
+    dark_every: int = int(arguments['--dark-every'])
 
     current_exposure = 0
+    dark: bool = False
 
     print("Looping with %ds exposure, %ds pause, %susing dithering." %
           (exposure, pause, "" if dither else "not "))
@@ -75,7 +78,16 @@ def main():
 
         while True:
             current_exposure += 1
+
+            if dark_every != 0 and (current_exposure % dark_every) == 0:
+                dark = True
+                input("Dark frame requested, please put on cap and press enter to continue.")
+
             do_exposure(exposure, ser)
+
+            if dark:
+                input("Dark frame done, please remove cap and press enter to continue.")
+                dark = False
 
             if count == -1:
                 print(f"Exposure {current_exposure} done.")
