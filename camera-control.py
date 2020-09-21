@@ -44,6 +44,7 @@ def main():
 
     interrupted = False
     guider = None
+    ser = None
 
     def handle_sigint(sig, frame):
         """
@@ -57,6 +58,11 @@ def main():
 
             if guider is not None:
                 guider.Disconnect()
+
+            if ser is not None:
+                ser.write(b'c')
+                ser.flush()
+                ser.close()
 
             sys.exit()
 
