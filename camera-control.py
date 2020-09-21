@@ -42,7 +42,7 @@ def main():
     interrupted = False
     guider = None
 
-    def handle_sigint():
+    def handle_sigint(sig, frame):
         """
         Allow the script to quit gracefully. Hit Ctrl-C twice in order to exit immediately.
         """
